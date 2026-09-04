@@ -1,0 +1,31 @@
+name: Build BookTrack
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Instalar PyInstaller
+        run: pip install pyinstaller
+
+      - name: Criar executável
+        run: pyinstaller --onefile --windowed --name BookTrack main.py
+
+      - name: Salvar programa
+        uses: actions/upload-artifact@v4
+        with:
+          name: BookTrack-Windows
+          path: dist/BookTrack.exe
