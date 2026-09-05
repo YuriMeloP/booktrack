@@ -1,10 +1,11 @@
 import tkinter as tk
 
 janela = tk.Tk()
-
 janela.title("BookTrack")
 janela.geometry("700x500")
 janela.configure(bg="#1a1919")
+
+janela.columnconfigure(0, weight=1)
 
 titulo_app = tk.Label(
     janela,
@@ -14,19 +15,16 @@ titulo_app = tk.Label(
     fg="white"
 )
 
-titulo_app.pack(pady=15)
+titulo_app.grid(row=0, column=0, pady=15)
+
 
 frame_cadastro = tk.Frame(
     janela,
     bg="#1a1919"
 )
 
-frame_cadastro.pack()
+frame_cadastro.grid(row=1, column=0)
 
-frame_lista = tk.Frame(
-    janela,
-    bg="#1a1919"
-)
 
 label_titulo = tk.Label(
     frame_cadastro,
@@ -35,10 +33,11 @@ label_titulo = tk.Label(
     fg="white"
 )
 
-label_titulo.pack()
+label_titulo.grid(row=0, column=0, padx=5, pady=5)
 
 entrada_titulo = tk.Entry(frame_cadastro)
-entrada_titulo.pack()
+entrada_titulo.grid(row=0, column=1, padx=5, pady=5)
+
 
 label_autor = tk.Label(
     frame_cadastro,
@@ -47,10 +46,20 @@ label_autor = tk.Label(
     fg="white"
 )
 
-label_autor.pack()
+label_autor.grid(row=1, column=0, padx=5, pady=5)
 
 entrada_autor = tk.Entry(frame_cadastro)
-entrada_autor.pack()
+entrada_autor.grid(row=1, column=1, padx=5, pady=5)
+
+
+frame_lista = tk.Frame(
+    janela,
+    bg="#1a1919"
+)
+
+frame_lista.grid(row=1, column=0)
+frame_lista.grid_remove()
+
 
 def adicionar_livro():
     nome_livro = entrada_titulo.get()
@@ -60,13 +69,16 @@ def adicionar_livro():
 
     lista_livros.insert(tk.END, livro)
 
+
 def ver_lista():
-    frame_cadastro.pack_forget()
-    frame_lista.pack()
+    frame_cadastro.grid_remove()
+    frame_lista.grid()
+
 
 def voltar():
-    frame_lista.pack_forget()
-    frame_cadastro.pack()
+    frame_lista.grid_remove()
+    frame_cadastro.grid()
+
 
 botao_adicionar = tk.Button(
     frame_cadastro,
@@ -74,11 +86,27 @@ botao_adicionar = tk.Button(
     command=adicionar_livro
 )
 
+botao_adicionar.grid(
+    row=2,
+    column=0,
+    columnspan=2,
+    pady=(10, 5)
+)
+
+
 botao_ver_lista = tk.Button(
     frame_cadastro,
     text="Ver lista",
     command=ver_lista
 )
+
+botao_ver_lista.grid(
+    row=3,
+    column=0,
+    columnspan=2,
+    pady=5
+)
+
 
 botao_voltar = tk.Button(
     frame_lista,
@@ -86,9 +114,8 @@ botao_voltar = tk.Button(
     command=voltar
 )
 
-botao_voltar.pack()
-botao_ver_lista.pack()
-botao_adicionar.pack(pady=10)
+botao_voltar.grid(row=0, column=0, pady=5)
+
 
 lista_livros = tk.Listbox(
     frame_lista,
@@ -96,6 +123,7 @@ lista_livros = tk.Listbox(
     height=10
 )
 
-lista_livros.pack()
+lista_livros.grid(row=1, column=0, pady=5)
+
 
 janela.mainloop()
